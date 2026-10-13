@@ -1,12 +1,12 @@
-# Auditable Rental Housing Law Navigator
+# Auditable Rental Housing Law Navigator — RAG + Deterministic Rule Engine
 
-**Evidence-grounded legal AI + a deterministic rule engine for address-level rental-law screening.**
+**A hybrid legal AI system combining retrieval-grounded LLM extraction with deterministic address-level rule evaluation.**
 
-The system uses model-assisted extraction to turn official legal text into source-linked, typed rule plans; reconciles jurisdiction and property facts across public datasets; and evaluates applicability with temporal gates and three-valued logic. Every result remains traceable to exact quotations and fact provenance, while missing or conflicting evidence stays `unknown` instead of becoming a fabricated legal verdict.
+The RAG-style pipeline retrieves relevant spans from official legal sources and uses an LLM to convert them into source-linked, typed rule plans. It then reconciles jurisdiction and property facts across public datasets and evaluates applicability with temporal gates and three-valued logic. Every result remains traceable to exact quotations and fact provenance, while missing or conflicting evidence stays `unknown` instead of becoming a fabricated legal verdict.
 
 MIT Rental Housing Law Navigator Challenge · legal snapshot as of **2026-10-01** · **[live product](https://rental-law-buddy.lovable.app/)**
 
-`Python` · `Structured LLM Extraction` · `JSON Schema` · `Rule Compilation` · `Three-Valued Logic` · `Census/TIGER Geocoding` · `Provenance & Conflict Tracking` · `Deterministic Evaluation`
+`Python` · `RAG` · `LLM` · `Structured Extraction` · `JSON Schema` · `Rule Compilation` · `Three-Valued Logic` · `Census/TIGER Geocoding` · `Deterministic Evaluation`
 
 ## The problem
 
@@ -51,7 +51,8 @@ The reviewed rule snapshot contains **457 in-force**, **6 not-yet-effective**, *
 
 | Technique | Implementation | Why it matters |
 |---|---|---|
-| **Evidence-grounded extraction** | Model-assisted legal-rule extraction with source-span tracking and exact-quote restoration | Prevents a generated summary from becoming unsupported legal evidence |
+| **RAG / retrieval-grounded LLM extraction** | Relevant legal-source spans are supplied to an LLM with source identity, offsets, and retrieval metadata | Grounds extracted rules in official documents rather than model memory |
+| **Exact-evidence validation** | Generated quotations are restored and validated against the original source bytes | Prevents a generated summary from becoming unsupported legal evidence |
 | **Schema-constrained records** | JSON Schema validation for conditions, exemptions, dates, citations, and status | Turns prose into inspectable, machine-checkable contracts |
 | **Typed rule compilation** | Reviewed rules compile into explicit `all`, `any`, `not`, comparison, and temporal expressions | Separates probabilistic interpretation from runtime decision logic |
 | **Three-valued logic** | Predicates resolve to `true`, `false`, or `unknown` with traceable missing/conflicting inputs | Prevents missing evidence from being treated as false or an exemption as absent |
@@ -60,7 +61,11 @@ The reviewed rule snapshot contains **457 in-force**, **6 not-yet-effective**, *
 | **Multi-source fact reconciliation** | Organizer facts, official use-code definitions, descriptions, and parcel observations retain provenance and conflicts | Makes property-level uncertainty visible instead of selecting a convenient value |
 | **Deterministic runtime** | Python evaluator, stable IDs, input/output hashes, replayable reports, and zero runtime model calls | Produces reproducible outputs suitable for audit and regression testing |
 
-The key design pattern is **AI for evidence-bounded interpretation; deterministic code for address-level evaluation**.
+The key design pattern is **RAG and LLMs for evidence-bounded interpretation; deterministic code for address-level evaluation**.
+
+### Beyond conventional RAG
+
+This is not a standard query-time RAG chatbot. The LLM operates during corpus construction, where retrieved source spans become reviewed, executable rule plans. The production-style lookup path makes **zero runtime model calls**: address-level outcomes come from the deterministic rule engine, while citations and evaluation traces remain available for audit.
 
 ## How it stays honest
 
@@ -83,7 +88,7 @@ This system provides transparent candidate-rule screening. It is **not legal adv
 Official legal sources
         │
         ▼
-Semantic source spans → extraction → quote validation → reviewed rule snapshot
+Semantic source spans → RAG-style LLM extraction → quote validation → reviewed rule snapshot
                                                               │
 Address sample → Census/TIGER + parcel enrichment → verified facts
                                                               │
