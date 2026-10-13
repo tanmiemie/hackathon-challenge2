@@ -1,8 +1,12 @@
-# Rental Housing Law Navigator 🏠⚖️
+# Auditable Rental Housing Law Navigator
 
-An auditable system that turns official rental-housing law and verified property facts into address-level rule screening—without pretending uncertainty is a legal verdict.
+**Evidence-grounded legal AI + a deterministic rule engine for address-level rental-law screening.**
+
+The system uses model-assisted extraction to turn official legal text into source-linked, typed rule plans; reconciles jurisdiction and property facts across public datasets; and evaluates applicability with temporal gates and three-valued logic. Every result remains traceable to exact quotations and fact provenance, while missing or conflicting evidence stays `unknown` instead of becoming a fabricated legal verdict.
 
 MIT Rental Housing Law Navigator Challenge · legal snapshot as of **2026-10-01** · **[live product](https://rental-law-buddy.lovable.app/)**
+
+`Python` · `Structured LLM Extraction` · `JSON Schema` · `Rule Compilation` · `Three-Valued Logic` · `Census/TIGER Geocoding` · `Provenance & Conflict Tracking` · `Deterministic Evaluation`
 
 ## The problem
 
@@ -42,6 +46,21 @@ The demo in one line: address **A0001** resolves to Los Angeles, returns **161 c
 | Automated tests | **316 passing** |
 
 The reviewed rule snapshot contains **457 in-force**, **6 not-yet-effective**, **2 pending**, and **1 failed** records. Twenty-three addresses fail closed at the jurisdiction gate; they are logged rather than silently assigned to a city.
+
+## Technical core
+
+| Technique | Implementation | Why it matters |
+|---|---|---|
+| **Evidence-grounded extraction** | Model-assisted legal-rule extraction with source-span tracking and exact-quote restoration | Prevents a generated summary from becoming unsupported legal evidence |
+| **Schema-constrained records** | JSON Schema validation for conditions, exemptions, dates, citations, and status | Turns prose into inspectable, machine-checkable contracts |
+| **Typed rule compilation** | Reviewed rules compile into explicit `all`, `any`, `not`, comparison, and temporal expressions | Separates probabilistic interpretation from runtime decision logic |
+| **Three-valued logic** | Predicates resolve to `true`, `false`, or `unknown` with traceable missing/conflicting inputs | Prevents missing evidence from being treated as false or an exemption as absent |
+| **Temporal and status gates** | Effective dates and enacted, pending, failed, or not-yet-effective status are evaluated independently | Supports legally meaningful as-of-date analysis |
+| **Geospatial jurisdiction resolution** | Census Geocoder and TIGER/Line evidence establish legal-city boundaries | Avoids treating a postal city as legal jurisdiction |
+| **Multi-source fact reconciliation** | Organizer facts, official use-code definitions, descriptions, and parcel observations retain provenance and conflicts | Makes property-level uncertainty visible instead of selecting a convenient value |
+| **Deterministic runtime** | Python evaluator, stable IDs, input/output hashes, replayable reports, and zero runtime model calls | Produces reproducible outputs suitable for audit and regression testing |
+
+The key design pattern is **AI for evidence-bounded interpretation; deterministic code for address-level evaluation**.
 
 ## How it stays honest
 
